@@ -10,6 +10,7 @@
 
 .movies-list {
   display: flex;
+  justify-content: center;
   flex-wrap: wrap;
   gap: 20px;
 }
@@ -36,6 +37,9 @@
 .poster-wrapper {
   width: calc(320px - 2*20px);
   height: 402px;
+
+  border-radius: 5px;
+  overflow: hidden;
 }
 
 .movie-genre {
@@ -45,6 +49,7 @@
 @media screen and (min-width: 768px) {
 
   .movies-list {
+    justify-content: flex-start;
     gap: 32px;
   }
 
