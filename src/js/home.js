@@ -1,16 +1,40 @@
-import FetchMovies from "./getFetch";
+import {getMovies} from "./getFetch";
 
 const moviesListEl = document.querySelector('.movies-list')
 
 let list;
 let i = 0;
 
-const getMovies = new FetchMovies()
-
 getMovies.getTrendingMovies()
-.then(({data})=> data.results.reduce((acc, movie) => {
+.then(renderMovies)
+.catch(err => console.log(err))
+// .then(() => list = document.querySelectorAll('.genres'))
+
+// function genresList(idArr) {
+//   return getMovies.getGenres()
+//   .then(genres => {
+//     return genres.filter(genre => idArr.includes(genre.id))
+//   })
+//   .then(genresFiltered => genresFiltered.map(({name}) => `${name}`).join(', '))
+//   .then(genresArr => {
+//     list[i].innerHTML = textLength(genresArr);
+//     i++
+//   })
+// }
+
+function textLength(text){
+  if(text.length > 35){
+    const str = [...text]
+    str.length = 33
+    return str.join('') + '...'
+  }
+  return text
+}
+
+export async function renderMovies({data}){
+  const template = await data.results.reduce((acc, movie) => {
     const {poster_path: poster, title, release_date, genre_ids } = movie;
-    genresList(genre_ids)
+    // genresList(genre_ids)
     return acc +
     `<li class="movie">
       <div class="poster-wrapper">
@@ -21,28 +45,6 @@ getMovies.getTrendingMovies()
         <p class="movie-genre"><span class="genres"></span> | ${parseInt(release_date)}</p>
       </div>
     </li>`
-  }, '')
-)
-.then(template => moviesListEl.innerHTML = template)
-.then(() => list = document.querySelectorAll('.genres'))
-
-function genresList(idArr) {
-  return getMovies.getGenres()
-  .then(genres => {
-    return genres.filter(genre => idArr.includes(genre.id))
-  })
-  .then(genresFiltered => genresFiltered.map(({name}) => `${name}`).join(', '))
-  .then(genresArr => {
-    list[i].innerHTML = textLength(genresArr);
-    i++
-  })
-}
-
-function textLength(text){
-  if(text.length > 35){
-    const str = [...text]
-    str.length = 33
-    return str.join('') + '...'
-  }
-  return text
+}, '')
+  return moviesListEl.innerHTML = template
 }
