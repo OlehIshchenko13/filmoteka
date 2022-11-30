@@ -1,4 +1,5 @@
 import {getMovies} from "./getFetch";
+import { instance } from "./pagination";
 
 const moviesListEl = document.querySelector('.movies-list')
 
@@ -7,6 +8,7 @@ let i = 0;
 
 getMovies.getTrendingMovies()
 .then(renderMovies)
+.then((data) => instance.reset(data.total_results))
 .catch(err => console.log(err))
 // .then(() => list = document.querySelectorAll('.genres'))
 
@@ -25,7 +27,7 @@ getMovies.getTrendingMovies()
 function textLength(text){
   if(text.length > 35){
     const str = [...text]
-    str.length = 33
+    str.length = 31
     return str.join('') + '...'
   }
   return text
@@ -33,12 +35,12 @@ function textLength(text){
 
 export async function renderMovies({data}){
   const template = await data.results.reduce((acc, movie) => {
-    const {poster_path: poster, title, release_date, genre_ids } = movie;
+    const {poster_path: poster, title, release_date, genre_ids, id } = movie;
     // genresList(genre_ids)
     return acc +
-    `<li class="movie">
+    `<li class="movie" data-movieId="${id}">
       <div class="poster-wrapper">
-        <img class="movie-poster" src="https://image.tmdb.org/t/p/w500/${poster}" alt="${title}" />
+        <img class="movie-poster" src="" alt="${title}" /> //https://image.tmdb.org/t/p/w500/${poster}
       </div>
       <div class="movie-meta">
         <h2 class="movie-title">${textLength(title)}</h2>
@@ -46,5 +48,6 @@ export async function renderMovies({data}){
       </div>
     </li>`
 }, '')
-  return moviesListEl.innerHTML = template
+  moviesListEl.innerHTML = template
+  return data
 }

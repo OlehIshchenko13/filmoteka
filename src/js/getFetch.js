@@ -5,11 +5,23 @@ class FetchMovies {
   #API_KEY = "dc26557b281e26d9f878e92da4703242"
 
   constructor(){
-    this.page = 1
+    this.page = 1;
+    this.query = '';
+  }
+
+  searchMovie(query, page=1){
+    this.query = query
+    return axios.get('/search/movie?', {
+      params: {
+        api_key: this.#API_KEY,
+        query,
+        page
+      }
+    })
   }
 
   getTrendingMovies(page = 1){
-    return axios.get('/trending/movie/week?', {
+    return axios.get('/trending/movie/day?', {
       params: {
         api_key: this.#API_KEY,
         page
