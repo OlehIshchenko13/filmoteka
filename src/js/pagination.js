@@ -5,9 +5,9 @@ import { renderMovies } from './home';
 
 const container = document.getElementById('tui-pagination-container');
 
-const options = {
+export const options = {
   totalItems: 500,
-  itemsPerPage: 10,
+  itemsPerPage: 20,
   visiblePages: 5,
   centerAlign: true,
   firstItemClassName: 'tui-first-child',
@@ -30,12 +30,20 @@ const options = {
   }
 };
 
-const instance = new Pagination(container, options);
+export const instance = new Pagination(container, options);
 
 instance.on('beforeMove', onPaginationClick);
 
 function onPaginationClick(e){
-  getMovies.getTrendingMovies(e.page)
-  .then(renderMovies)
-  .catch(err => console.log(err))
+  if(getMovies.query){
+    getMovies.searchMovie(getMovies.query, e.page)
+    .then(renderMovies)
+    .catch(err => console.log(err))
+  }
+
+  else {
+    getMovies.getTrendingMovies(e.page)
+    .then(renderMovies)
+    .catch(err => console.log(err))
+  }
 }
