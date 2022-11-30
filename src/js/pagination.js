@@ -1,7 +1,10 @@
 import Pagination from 'tui-pagination';
 import "tui-pagination/dist/tui-pagination.min.css"
+import { getMovies } from './getFetch';
+import { renderMovies } from './home';
 
 const container = document.getElementById('tui-pagination-container');
+
 const options = {
   totalItems: 500,
   itemsPerPage: 10,
@@ -29,4 +32,10 @@ const options = {
 
 const instance = new Pagination(container, options);
 
-instance.getCurrentPage();
+instance.on('beforeMove', onPaginationClick);
+
+function onPaginationClick(e){
+  getMovies.getTrendingMovies(e.page)
+  .then(renderMovies)
+  .catch(err => console.log(err))
+}
