@@ -1,12 +1,14 @@
-<div class="modal-movie__backdrop backdrop--visible">
+<div class="modal-movie__backdrop "> 
+    <!-- visually-hidden -->
     <div class="modal-movie__container">
-        <button type="button" class="modal-movie-close">
-            <svg class="modal-movie-close__icon" data-btn="close">
-                <use href="/src/images/modal-movie/close.svg">
-                </use>
+        <button type="button" class="modal-movie-close" data-btn="close">
+            <svg class="modal-movie-close__icon" width='30' height='30' viewBox='0 0 30 30'>
+                <path class='modal-movie-close__path' d='M8 8L22 22' stroke='black' stroke-width='2'></path>
+                <path class='modal-movie-close__path' d='M8 22L22 8' stroke='black' stroke-width='2'></path>
+                <!-- <use href="/src/images/modal-movie/close.svg"></use> -->
             </svg>
         </button>
-        <div class="modal-movie__poster" width="240">
+        <div class="modal-movie__poster">
             <img class="modal-movie__img" src="/src/images/Rectangle 5.jpg" alt="movie poster">
         </div>
         <div class="modal-movie-content">
@@ -50,5 +52,6 @@
                 <button class="modal-movie-btn">Add to queue</button>
             </div>
         </div>
+        
     </div>
 </div>
